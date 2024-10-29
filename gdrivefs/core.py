@@ -155,7 +155,7 @@ class GoogleDriveFileSystem(AbstractFileSystem):
         self.rm(path, recursive=False)
 
     def _info_by_id(self, file_id, path_prefix=None):
-        response = self.service.get(fileId=file_id, fields=fields,
+        response = self.service.get(fileId=file_id, fields=fields,supportsAllDrives=True
                                     ).execute()
         return _finfo_from_response(response, path_prefix)
 
@@ -199,7 +199,7 @@ class GoogleDriveFileSystem(AbstractFileSystem):
             query += "and trashed = false "
         while True:
             response = self.service.list(q=query,
-                                         spaces=self.spaces, fields=afields,
+                                         spaces=self.spaces, fields=afields,supportsAllDrives=True,includeItemsFromAllDrives=True,
                                          pageToken=page_token).execute()
             for f in response.get('files', []):
                 all_files.append(_finfo_from_response(f, path_prefix))
